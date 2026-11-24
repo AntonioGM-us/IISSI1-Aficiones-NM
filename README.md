@@ -5,14 +5,32 @@ de IISSI-1 (requisitos, modelos y solución de la parte base), para resolver «P
 
 ## Cómo empezar
 
-1. Haz un fork de este repositorio en tu cuenta de GitHub y clónalo.
-2. Carga la base de datos (`hobbies_nm_db`) desde la carpeta del repositorio:
+1. **Fork**: con la sesión iniciada en GitHub, pulsa **Fork** (arriba a la derecha de esta página) y
+   después **Create fork**. Se crea una copia del repositorio en tu cuenta
+   (`https://github.com/<usuario>/IISSI1-Aficiones-NM`), que es la tuya: en ella trabajas y subes
+   tus cambios.
+2. **Clonar**: descarga tu copia (la de tu cuenta, no esta) en tu ordenador:
+
+   ```bash
+   git clone https://github.com/<usuario>/IISSI1-Aficiones-NM.git
+   cd IISSI1-Aficiones-NM
+   ```
+
+   En VS Code también se puede hacer con **Clone Git Repository…** (`Ctrl+Shift+P` → *Git: Clone*)
+   y la URL de tu fork.
+3. **Cargar la base de datos** (`hobbies_nm_db`) desde la carpeta del repositorio:
 
    ```bash
    mariadb < load_db.sql
    ```
 
-3. Añade tu solución en ficheros nuevos y haz commit y push a tu fork.
+4. **Trabajar**: añade tu solución en ficheros nuevos y súbela a tu fork:
+
+   ```bash
+   git add .
+   git commit -m "Añadir aficiones desde el catálogo"
+   git push
+   ```
 
 | Fichero | Contenido |
 |---|---|
