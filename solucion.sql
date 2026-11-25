@@ -1,5 +1,6 @@
 USE hobbies_nm_db;
 
+/*Funcion f_get_hobby_id*/
 DELIMITER //
 CREATE OR REPLACE FUNCTION f_get_hobby_id(
     p_nombreA VARCHAR(128)
@@ -15,6 +16,7 @@ DELIMITER ;
 
 SELECT f_get_hobby_id("Cine") AS cine, f_get_hobby_id("Ajedrez") as Ajedrez;
 
+/*Procedimiento p_add_hobby_to_user*/
 DELIMITER //
 CREATE OR REPLACE PROCEDURE p_add_hobby_to_user(
 	IN p_user_id INT,
@@ -47,15 +49,37 @@ DELIMITER ;
 
 SELECT uh.user_id, h.hobby_name
 FROM users_hobbies uh
-JOIN hobbies h ON h.hobby_id=uh.user_hobby_id
+JOIN hobbies h ON h.hobby_id=uh.hobby_id
 WHERE uh.user_id=1;
 
 CALL p_add_hobby_to_user(1, 'Cine');
 
 SELECT uh.user_id, h.hobby_name
 FROM users_hobbies uh
-JOIN hobbies h ON h.hobby_id=uh.user_hobby_id
+JOIN hobbies h ON h.hobby_id=uh.hobby_id
 WHERE uh.user_id=1;
 SELECT COUNT(*) AS hobbies_in_catalog
 FROM hobbies;
 		
+/*Procedimiento transaccional del anterior (envoltorio)*/
+DELIMITER //
+CREATE OR REPLACE PROCEDURE p_add_hobby_to_user_ts(
+	IN p_user_id INT,
+	IN p_hobby_name VARCHAR(128)
+)
+BEGIN
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+	BEGIN
+		ROLLBACK;
+		RESIGNAL;
+	END;
+	START TRANSACTION;
+		CALL p_add_hobby_to_user(p_user_id, p_hobby_name);
+	COMMIT;
+END //
+DELIMITER ;
+
+SELECT 
+FROM users_hobbies uh
+JOIN hobbies h ON h.hobby_id=uh.hobby_id
+WHERE uh.user_id = 3;
